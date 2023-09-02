@@ -8,12 +8,12 @@ export class TasksController {
   constructor(private readonly taskService: TasksService) {}
 
   @Get()
-  hello(): string {
-    return this.taskService.hello();
+  getAll(): Promise<Task[] | null> {
+    return this.taskService.getAll();
   }
 
   @Post()
-  createOne(@Body() inbound: CreateTaskDto): Promise<Task> {
+  createOne(@Body() inbound: CreateTaskDto): string {
     return this.taskService.createOne(inbound);
   }
 }

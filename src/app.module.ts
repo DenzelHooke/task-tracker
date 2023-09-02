@@ -1,14 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TasksController } from './tasks/tasks.controller';
-import { TasksService } from './tasks/tasks.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { TasksModule } from './tasks/tasks.module';
+import config from './config/keys';
 
 @Module({
-  imports: [MongooseModule.forRoot(process.env.MONGO_URI)],
-  controllers: [AppController, TasksController],
-  providers: [AppService, TasksService],
+  imports: [
+    TasksModule,
+    ConfigModule.forRoot({}),
+    MongooseModule.forRoot(process.env.MONGO_URI ? process.env.MONGO_URI : ''),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Task } from './interfaces/tasks.interface';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+
 // {
 //     title: "Quote 2x4",
 //     description: 'Must quote this by friday for Lasey, 204-224-2552',
@@ -8,11 +11,19 @@ import { Task } from './interfaces/tasks.interface';
 
 @Injectable()
 export class TasksService {
+  constructor(@InjectModel('Task') private readonly TaskModel: Model<Task>) {}
+
   hello(): string {
     return 'Hello There Mate';
   }
 
-  async createOne(task: Task): Promise<Task> {
-    // const newTask = new ItemModel()
+  async getAll(): Promise<Task[] | null> {
+    return await this.TaskModel.find();
+  }
+
+  createOne(task: Task): string {
+    // const newTask = new this.TaskModel(task);
+
+    return `TASK DATA: ${task}`;
   }
 }
