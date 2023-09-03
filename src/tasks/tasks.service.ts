@@ -21,9 +21,22 @@ export class TasksService {
     return await this.TaskModel.find();
   }
 
-  createOne(task: Task): string {
-    // const newTask = new this.TaskModel(task);
+  async getOne(id: string): Promise<Task | null> {
+    return await this.TaskModel.findById({ _id: id });
+  }
 
-    return `TASK DATA: ${task}`;
+  async createOne(task: Task): Promise<Task> {
+    console.log(task);
+    const newTask = new this.TaskModel(task);
+    console.log(newTask);
+    return await newTask.save();
+
+    // return `TASK DATA: ${task}`;
+  }
+
+  async deleteOne(id: string): Promise<Task | null> {
+    const deleted = this.TaskModel.findByIdAndDelete({ _id: id });
+
+    return await deleted;
   }
 }
